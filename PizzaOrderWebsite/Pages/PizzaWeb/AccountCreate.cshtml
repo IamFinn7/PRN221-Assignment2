@@ -1,0 +1,62 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.AccountCreateModel
+@{
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/accountCreate.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<div class="dashboard">
+    <div class="create-account-container">
+        <button class="back-btn" onclick="window.location.href='AccountView'">Back to Account</button>
+
+        <div class="create-account">
+            <h1>Create Account</h1>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Account.UserName">Account Name:</label>
+                    <input type="text" required asp-for="Account.UserName" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Account.Password">Password:</label>
+                    <input type="password" required asp-for="Account.Password" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Account.FullName">Full Name:</label>
+                    <input type="text" required asp-for="Account.FullName" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Account.Type">Account Type:</label>
+                    <select asp-for="Account.Type" required>
+                        <option value="">Select Type</option>
+                        <option value="Member">Member</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                </div>
+                <button type="submit" class="save-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let passwordVisible = false;
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordVisible) {
+            passwordInput.setAttribute('type', 'password');
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+            passwordVisible = false;
+        } else {
+            passwordInput.setAttribute('type', 'text');
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+            passwordVisible = true;
+        }
+    }
+</script>

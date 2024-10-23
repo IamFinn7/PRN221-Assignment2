@@ -1,0 +1,74 @@
+﻿@{
+    var isStaff = User.IsInRole("Staff");
+    var isUser = User.IsInRole("Member");
+    var cartItemCount = HttpContextAccessor.HttpContext.Session.GetInt32("CartItemCount") ?? 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PizzaOrderWebsite</title>
+    @inject IHttpContextAccessor HttpContextAccessor
+</head>
+<body>
+    <header class="header" style="height:15%">
+        <div>
+        <a href="#" class="logo"> <i class="fas fa-utensils"></i> Pizza Zone </a>
+            @if (isStaff || isUser)
+            {
+                <div class="user-display">
+                    <span id="username">Welcome, @User.Identity.Name</span>
+                </div>
+            }
+        </div>
+
+        <div style="display: flex; align-items: center;">
+            <nav class="navbar">
+                <a asp-area="" asp-page="/Index">Home</a>
+                <a asp-area="" asp-page="/PizzaWeb/Menu">Menu</a>
+                @if (isStaff)
+                {
+                    <a asp-area="" asp-page="/PizzaWeb/Order">List Order</a>
+                    <a asp-area="" asp-page="/PizzaWeb/AccountView">List Account</a>
+                    <a asp-area="" asp-page="/PizzaWeb/Logout">Logout</a>
+
+                } 
+                else if (isUser)
+                {
+                    <a asp-area="" asp-page="/PizzaWeb/Order">My Order</a>
+                    <a asp-area="" asp-page="/PizzaWeb/AccountView">Account</a>
+                    <a asp-area="" asp-page="/PizzaWeb/Logout">Logout</a>
+                }
+                else
+                {
+                    <a asp-area="" asp-page="/PizzaWeb/Login">Login</a>
+                }
+            </nav>
+
+            <div class="icons">
+                @if (isUser)
+                {
+                    <div>
+                        <a class="fa-solid fa-cart-shopping" id="theme-btn" asp-area="" asp-page="/PizzaWeb/Cart"></a>
+                        <span id="cart-item-count" class="badge badge-light">@cartItemCount</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top:15vh">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

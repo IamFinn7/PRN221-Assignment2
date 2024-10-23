@@ -1,0 +1,115 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.AccountViewModel
+@{
+    var isStaff = User.IsInRole("Staff");
+    var isUser = User.IsInRole("Member");
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/accountView.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+@if(isUser)
+{
+    <div class="view-account">
+        <h1>Account Details</h1>
+        <div class="account-info">
+            <div class="info-item">
+                <strong>Account Name:</strong>
+                <span id="username">@Model.CurrentAccount.UserName</span>
+            </div>
+            <div class="info-item">
+                <strong>Full Name:</strong>
+                <span id="fullname">@Model.CurrentAccount.FullName</span>
+            </div>
+            <div class="info-item">
+                <strong>Password:</strong>
+                <input style="background:#f9f9f9;" type="password" id="password" value="@Model.CurrentAccount.Password" readonly />
+                <button class="toggle-password" onclick="togglePasswordVisibility(this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <button type="button" class="edit-btn" onclick="window.location='@Url.Page("AccountEdit", new { id = Model.CurrentAccount.AccountID })'">Edit Account</button>
+
+    </div>
+}
+else if (isStaff)
+{
+    <div class="managerAccountHome">
+        <h3>Manage Accounts</h3>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>@Html.DisplayNameFor(model => model.Account[0].UserName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Account[0].Password)</th>
+                        <th>@Html.DisplayNameFor(model => model.Account[0].FullName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Account[0].Type)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Account.Select((value, index) => new { value, index }))
+                    {
+                        <tr>
+                            <td>@(item.index + 1)</td>
+                            <td>@Html.DisplayFor(modelItem => item.value.UserName)</td>
+                            <td style="width: 200px;">
+                                <div class="password-container">
+                                    <input type="password" class="password-input" value="@Html.DisplayFor(modelItem => item.value.Password)" readonly />
+                                    <button class="btn-show-password" onclick="togglePasswordVisibility(this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.value.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.value.Type)</td>
+                            <td style="width: 15%">
+
+                                @if (isStaff)
+                                {
+                                    <a class="btn" asp-page="AccountEdit" asp-route-id="@item.value.AccountID">Edit</a>
+                                    <form method="post" asp-page-handler="Delete" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this account?');">
+                                        <input type="hidden" name="id" value="@item.value.AccountID" />
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a class="btn" asp-page="EditAccount" asp-route-id="@item.value.AccountID">Edit</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (isStaff)
+            {
+                <div class="createAccountContainer">
+                    <a asp-page="AccountCreate" class="createAccountBtn">Create New Account</a>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<script>
+    let passwordVisible = false;
+
+    function togglePasswordVisibility(button) {
+        const passwordInput = button.previousElementSibling; 
+        const eyeIcon = button.querySelector('i'); 
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+</script>

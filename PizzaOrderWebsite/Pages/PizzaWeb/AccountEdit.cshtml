@@ -1,0 +1,67 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.AccountEditModel
+@{
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/accountEdit.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<div class="dashboard">
+    <div class="edit-account-container">
+        <button class="back-btn" onclick="window.location.href='AccountView'">Back to Account</button>
+
+        <div class="edit-account">
+            <h1>Edit Account</h1>
+            <form method="post">
+                <input type="hidden" asp-for="Account.AccountID" />
+                <div class="form-group">
+                    <label asp-for="Account.UserName">Account Name:</label>
+                    <input type="text" required asp-for="Account.UserName" readonly style="background: #f9f9f9;" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Account.Password">Password:</label>
+                    <input type="text" required asp-for="Account.Password" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Account.FullName">Full Name:</label>
+                    <input type="text" id="fullname" required asp-for="Account.FullName" />
+                </div>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let passwordVisible = false;
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordVisible) {
+            passwordInput.setAttribute('type', 'password');
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+            passwordVisible = false;
+        } else {
+            passwordInput.setAttribute('type', 'text');
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+            passwordVisible = true;
+        }
+    }
+
+    // function validateForm() {
+    //     const username = document.getElementById('username').value;
+    //     const password = document.getElementById('password').value;
+    //     const fullname = document.getElementById('fullname').value;
+
+    //     if (!username || !password || !fullname) {
+    //         alert("All fields must be filled out.");
+    //         return false;
+    //     }
+    //     return true;
+    // }
+</script>

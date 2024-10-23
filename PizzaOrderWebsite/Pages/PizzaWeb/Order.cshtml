@@ -1,0 +1,59 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.OrderModel
+@{
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/order.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<section class="order">
+    <h3 class="order-heading">My Order</h3>
+    <div class="table-container">
+        @if (!Model.Orders.Any())
+        {
+            <p class="no-orders-message">You have not completed any orders.</p>
+        }
+        else
+        {
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Ship Address</th>
+                        <th>Freight</th>
+                        <th>Amount</th>
+                        <th>Order Date</th>
+                        <th>Required Date</th>
+                        <th>Shipped Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Orders.Select((value, index) => new { value, index }))
+                    {
+                        <tr>
+                            <td>@(item.index + 1)</td>
+                            <td>@Html.DisplayFor(modelItem => item.value.Customer.ContactName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.value.ShipAddress)</td>
+                            <td>@Html.DisplayFor(modelItem => item.value.Freight)</td>
+                            <td>
+                                @{
+                                    var totalAmount = item.value.OrderDetails.Sum(od => od.Quantity * od.UnitPrice);
+                                }
+                                @totalAmount
+                            </td>
+                            <td>@item.value.OrderDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.value.RequiredDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.value.ShippedDate?.ToString("dd/MM/yyyy")</td>
+                            <td class="action-cell">
+                                <a class="btn" asp-page="./OrderDetail" asp-route-id="@item.value.OrderID">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>

@@ -1,0 +1,60 @@
+﻿.order {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.order-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.table-container {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 500px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff; /* Set table background to white */
+}
+
+    .order-table th, .order-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    .order-table th {
+        font-weight: 600;
+    }
+
+.no-orders-message {
+    color: red;
+    font-size: 18px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s, transform 0.3s;
+    font-size: 12px;
+}
+
+    .btn:hover {
+        color: white;
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+.action-cell {
+    text-align: center;
+}

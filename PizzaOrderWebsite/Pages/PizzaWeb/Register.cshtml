@@ -1,0 +1,83 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.RegisterModel
+@{
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/register.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+<div class="register-container">
+    <h1>Register</h1>
+    <form method="post" id="register-form" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label asp-for="Account.UserName">Username:</label>
+            <input type="text" id="username" asp-for="Account.UserName" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="Account.Password">Password:</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" asp-for="Account.Password" required />
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')">
+                    <i class="fas fa-eye" id="eye-icon-password"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password:</label>
+            <div class="password-wrapper">
+                <input type="password" id="confirm-password" name="confirm-password" required />
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirm-password')">
+                    <i class="fas fa-eye" id="eye-icon-confirm-password"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Account.FullName">Full Name:</label>
+            <input type="text" id="fullname" asp-for="Account.FullName" required />
+        </div>
+        <button type="submit" class="register-btn">Register</button>
+    </form>
+</div>
+
+<script>
+    let passwordVisible = false;
+    let confirmPasswordVisible = false;
+
+    function togglePasswordVisibility(field) {
+        const passwordInput = document.getElementById(field);
+        const eyeIcon = field === 'password' ? document.getElementById('eye-icon-password') : document.getElementById('eye-icon-confirm-password');
+
+        if (field === 'password') {
+            passwordVisible = !passwordVisible;
+            passwordInput.setAttribute('type', passwordVisible ? 'text' : 'password');
+            eyeIcon.classList.toggle('fa-eye-slash', passwordVisible);
+            eyeIcon.classList.toggle('fa-eye', !passwordVisible);
+        } else {
+            confirmPasswordVisible = !confirmPasswordVisible;
+            passwordInput.setAttribute('type', confirmPasswordVisible ? 'text' : 'password');
+            eyeIcon.classList.toggle('fa-eye-slash', confirmPasswordVisible);
+            eyeIcon.classList.toggle('fa-eye', !confirmPasswordVisible);
+        }
+    }
+
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const fullname = document.getElementById('fullname').value;
+
+        if (!username || !password || !confirmPassword || !fullname) {
+            alert("All fields must be filled out.");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+

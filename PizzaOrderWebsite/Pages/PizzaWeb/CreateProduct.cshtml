@@ -1,0 +1,52 @@
+﻿@page
+@model PizzaOrderWebsite.Pages.PizzaWeb.CreateProductModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Create Pizza - Food Website";
+}
+
+<link rel="stylesheet" href="~/css/global.css" />
+<link rel="stylesheet" href="~/css/productCreate.css" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+
+<div class="create-product-container">
+    <h1 class="heading" style="padding-bottom: 0;">Create <span>New Product</span></h1>
+    <a href="/PizzaWeb/Menu" class="back-link" style=" font-size: 14px;">Back to Menu</a>
+
+    <div class="product-form-content">
+        <form method="post" enctype="multipart/form-data">
+            <div class="input-group">
+                <label asp-for="ProductVMs.ProductName" class="control-label">Product Name:</label>
+                <input asp-for="ProductVMs.ProductName" class="form-control" />
+                <span asp-validation-for="ProductVMs.ProductName" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <label asp-for="ProductVMs.QuantityPerUnit" class="control-label">Quantity:</label>
+                <input asp-for="ProductVMs.QuantityPerUnit" class="form-control" />
+                <span asp-validation-for="ProductVMs.QuantityPerUnit" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <label asp-for="ProductVMs.UnitPrice" class="control-label">Price:</label>
+                <input asp-for="ProductVMs.UnitPrice" class="form-control" />
+                <span asp-validation-for="ProductVMs.UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <label asp-for="ProductVMs.Category.CategoryName" class="control-label">Category:</label>
+                <select asp-for="ProductVMs.CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+            </div>
+            <div class="input-group">
+                <label asp-for="ProductVMs.Supplier.CompanyName" class="control-label">Supplier:</label>
+                <select asp-for="ProductVMs.SupplierID" class="form-control" asp-items="ViewBag.SupplierID"></select>
+            </div>
+            <div class="input-group">
+                <label asp-for="File" class="control-label">Upload Image:</label>
+                <input asp-for="File" type="file" class="form-control" />
+            </div>
+            <button type="submit" class="submit-button">Create Pizza</button>
+        </form>
+    </div>
+</div>
